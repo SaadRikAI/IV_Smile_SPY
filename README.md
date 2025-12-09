@@ -5,13 +5,15 @@ This project analyzes SPY option chains to compute and visualize the implied vol
 It provides a complete pipeline from data retrieval → cleaning → implied volatility computation → visualization → machine learning prediction.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-📂 Repository Structure
 
+## 📂 Repository Structure
+
+```
 IV_Smile_SPY/
 │
 ├── notebooks/
-│   ├── 01_load_clean_IV.ipynb        # Load data, clean, compute IV, visualize
-│   └── 02_IV_prediction_model.ipynb  # Machine learning models for IV prediction
+│   ├── 01_load_clean_IV.ipynb
+│   └── 02_IV_prediction_model.ipynb
 │
 ├── src/
 │   └── data/
@@ -23,6 +25,8 @@ IV_Smile_SPY/
 │
 ├── .gitignore
 └── README.md
+```
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
