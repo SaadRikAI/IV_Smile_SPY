@@ -1,108 +1,99 @@
-📈 SPY Options Implied Volatility Smile — Machine Learning Project
+📈 SPY Options — Implied Volatility Smile & Machine Learning Prediction
 
-This project analyzes SPY options to compute and visualize the implied volatility (IV) smile, a key concept in options pricing.
-It includes:
+This project analyzes SPY option chains to compute and visualize the implied volatility (IV) smile, and builds machine learning models to predict IV from observable option features.
 
-Loading and cleaning real SPY option chain data
+It provides a complete pipeline from data retrieval → cleaning → implied volatility computation → visualization → machine learning prediction.
 
-Computing mid-prices and time to maturity
-
-Retrieving the SPY underlying price
-
-Calculating implied volatility using the Black-Scholes model
-
-Visualizing the volatility smile
-
-Exporting results for modeling
-
-This repository provides a full, clean pipeline from raw option chain data to IV computation and visualization.
-
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 📂 Repository Structure
 
 IV_Smile_SPY/
 │
 ├── notebooks/
-│   ├── 01_load_clean_IV.ipynb     # Load data, clean, compute IV, visualize
-│   └── 02_IV_prediction.ipynb     # ML model to predict implied volatility
+│   ├── 01_load_clean_IV.ipynb        # Load data, clean, compute IV, visualize
+│   └── 02_IV_prediction_model.ipynb  # Machine learning models for IV prediction
 │
 ├── src/
 │   └── data/
 │       └── results/
 │           ├── IV_results.csv
-│           └── volatility_smile.png
+│           ├── model_performance.csv
+│           ├── volatility_smile.png
+│           └── iv_prediction_fit.png
 │
 ├── .gitignore
 └── README.md
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 🧹 Data Preparation & Cleaning
 
-The project performs the following preprocessing steps:
+The preprocessing pipeline includes:
 
-1. Merge call and put chains
+1.2Merging call and put option chains
 
-2. Compute mid-price
-
-
-	mid=(2bid+ask​)/2​
+2.Computing mid-price
 
 
-3. Remove invalid entries
+mid=(2×bid+ask)/3​
 
-4. Retrieve spot price from SPY history
 
-5. Compute time to maturity (T)
-in years, based on the selected expiration date
+3.Removing invalid or missing entries
 
-6. Keep essential columns for modeling
---------------------------------------------------------------------------------------------------------------------------------------------------------
+4.Retrieving SPY spot price using historical data
 
+5.Computing time to maturity (T) in years
+
+6.Keeping essential columns for modeling:
+
+-strike
+
+-mid-price
+
+-spot price
+
+-time to maturity
+
+-option type (call/put)
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 📐 Implied Volatility Computation
 
-IV is calculated numerically using the Newton–Raphson root-finding method applied to the Black-Scholes pricing formulas.
+Implied volatility is computed using the Newton–Raphson numerical method applied to the Black–Scholes pricing model.
 
-For each option, the algorithm solves:
+For each option, we solve:
 
-𝐵
-𝑆
-(
-𝜎
-)
-=
-market price
-BS(σ)=market price
 
-producing a stable IV estimate when possible.
+𝐵𝑆(𝜎)=market price
 
-All computed results are stored in:
+
+The clean dataset containing computed IV values is stored in:
 
 src/data/results/IV_results.csv
------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-📊 Volatility Smile Visualization
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-The project generates a full volatility smile for the selected expiration.
+🤖 Machine Learning — Implied Volatility Prediction
 
-<p align="center"> <img src="src/data/results/volatility_smile.png" width="600"> </p>
+Using the cleaned dataset, several ML models are trained to predict implied volatility:
 
-This visualization highlights how implied volatility varies with strike price and reveals the convex “smile” structure typical in equity index options.
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-🤖 Machine Learning Model for IV Prediction
-
-The second notebook explores predictive modeling using the cleaned dataset.
-Models trained include:
+Models
 
 Linear Regression
 
 Random Forest Regressor
 
-Gradient Boosting / XGBoost
+XGBoost Regressor
 
-Model performance is evaluated using RMSE, MAE, and R² metrics.
+Evaluation Metrics
 
-The goal is to predict implied volatility from standard observable option features:
+MAE (Mean Absolute Error)
+
+RMSE (Root Mean Squared Error)
+
+R² Score
+
+Features Used
 
 strike
 
@@ -112,16 +103,28 @@ spot price
 
 time to maturity
 
-option type (call/put)
+option type
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+A comparison between predicted and actual IV is shown below:
+
+<p align="center"> <img src="src/data/results/iv_prediction_fit.png" width="600"> </p>
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 📁 Generated Outputs
-File	Description
-IV_results.csv	Clean dataset with computed implied volatilities
-volatility_smile.png	Visualization of the IV smile
 
-These files are versioned in the repository for reproducibility.
+| File                      | Description                                      |
+| ------------------------- | ------------------------------------------------ |
+| **IV_results.csv**        | Clean dataset with computed implied volatilities |
+| **model_performance.csv** | Performance metrics for all ML models            |
+| **volatility_smile.png**  | Visualization of the IV smile                    |
+| **iv_prediction_fit.png** | Actual vs predicted IV comparison                |
+
+All files are versioned for reproducibility.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 👤 Author
 
